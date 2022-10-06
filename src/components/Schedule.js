@@ -10,19 +10,15 @@ const Schedule = ({ canEdit }) => {
   const [date, setDate] = useState(new Date());
   const [events, setEvents] = useState([]);
   const [delivery, setDelivery] = useState(null);
-  const openPopUp = (event) => {
-    setDelivery(events.find(x => x.id === event.e.data.id));
-  }
   useEffect(() => {
     db.get('delivery').then(x => setEvents(x.data));
   }, []);
-  console.log(events);
   const localizer = momentLocalizer(moment);
 
   return (
     <div style={{height: 1000, backgroundColor: "white"}}>
       {delivery !== null && <Modal delivery={delivery} setDelivery={setDelivery} canEdit={canEdit} events={events} setEvents={setEvents}/>}
-      <Calendar localizer={localizer}
+      <Calendar localizer={localizer} defaultView={'week'} onSelectEvent={x => setDelivery(x)}
       events={events.map(event => {
         return {
           ...event,
