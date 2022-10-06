@@ -3,10 +3,10 @@ import Map from './Map';
 import Form from './Form';
 import Config from './Config';
 
-const Modes = ({ mode, isAdmin }) => {
-  switch(mode){
+const Modes = ({ mode }) => {
+  switch(mode) {
     case 'calendar':
-      return <Schedule canEdit={isAdmin} />
+      return <Schedule/>
     case 'map':
       return <Map/>
     case 'form':

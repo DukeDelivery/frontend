@@ -1,11 +1,15 @@
 import Popup from "reactjs-popup";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import db from "../utils/request";
+import AdminContext from "../contexts/AdminContext";
 
-const Login = ({ setAdmin }) => {
+
+const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [open, setOpen] = useState(false);
+  const {setAdmin} = useContext(AdminContext);
+
   const handleSubmit = (e) => {
     e.preventDefault();
     db.post('login', {username: username, password: password})
@@ -19,6 +23,7 @@ const Login = ({ setAdmin }) => {
       });
     setOpen(false);
   }
+  
   return (
     <div>
       <h3 id="adminLogin" onClick={() => setOpen(true)}>Admin Login</h3>

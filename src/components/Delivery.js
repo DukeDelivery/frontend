@@ -1,14 +1,18 @@
 import { HOUR } from '../utils/time';
 import db from '../utils/request';
 import ConfirmButton from './ConfirmButton';
+import { useContext } from 'react';
+import AdminContext from '../contexts/AdminContext';
+import EventsContext from '../contexts/EventsContext';
 
-const Delivery = ( { delivery, setDelivery, setEvents, setEditMode} ) => {
+const Delivery = ( { delivery, setDelivery, setEditMode} ) => {
+  const {setEvents} = useContext(EventsContext);
+  const {admin} = useContext(AdminContext);
   const readableDateFormat = (date) => {
     const d = new Date(date);
     if (d.toString() === 'Invalid Date') return null;
     return d.toLocaleString('en-US', {dateStyle: 'medium', timeStyle: 'short', timeZone: 'UTC'});
   }
-
   const deleteDelivery = () => {
     db.post('delete', delivery);
     setEvents(events => events.filter(event => event.id !== delivery.id));
@@ -30,11 +34,13 @@ const Delivery = ( { delivery, setDelivery, setEvents, setEditMode} ) => {
       Hoist Method: {delivery.hoistMethod || 'N/A'}<br/>
       Number of Trucks: {delivery.trucks || 'N/A'}<br/>
       Extra Notes: {delivery.notes || 'N/A'}<br/>
-      <ConfirmButton 
-        text='Delete Delivery' action={deleteDelivery}
-        confirmText={'Are you sure you would like to delete delivery?'}
-      />
-      <button onClick={() => setEditMode(true)}>Edit Delivery</button>
+      {admin && <>
+        <ConfirmButton 
+          text='Delete Delivery' action={deleteDelivery}
+          confirmText={'Are you sure you would like to delete delivery?'}
+        />
+        <button onClick={() => setEditMode(true)}>Edit Delivery</button>
+      </>}
     </div>
   );
 

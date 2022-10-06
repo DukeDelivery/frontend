@@ -7,19 +7,13 @@ const Form = () => {
   const [delivery, setDelivery] = useState({});
   const [date, setDate] = useState('');
   const [times, setTimes] = useState({});
-  useEffect(() => {
-    db.get('time').then(x => setTimes(x.data));
-  }, []);
   const weekdays = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+
   const handleChange = (data, field) => {
     setDelivery({
       ...delivery,
       [field]: data,
     });
-  }
-  const style = {
-    textAlign: 'center',
-    margin: 'auto',
   }
   const submitForm = (event) => {
     event.preventDefault();
@@ -46,17 +40,21 @@ const Form = () => {
     }
     delivery.start = new Date(date).valueOf() + delivery.start + 4*HOUR;
     delivery.end = new Date(date).valueOf() + delivery.end + 4*HOUR;
-    console.log(delivery);
     db.post('delivery', delivery).then(() => {
       alert('Your delivery has been saved.');
     });
     setDelivery({});
     window.scrollTo(0, 0);
   }
+
+  useEffect(() => {
+    db.get('time').then(x => setTimes(x.data));
+  }, []);
+  
   return (
-    <form onSubmit={submitForm} style={style} >
+    <form onSubmit={submitForm}>
       <h2>Required Fields</h2>
-      <table style={style}>
+      <table >
         <tbody>
           <tr>
             <td>Date:</td>
@@ -97,7 +95,7 @@ const Form = () => {
         </tbody>
       </table>
       <h2>Optional Fields</h2>
-      <table style={style}>
+      <table>
         <tbody>
           <tr>
             <td>Scheduler Name:</td>

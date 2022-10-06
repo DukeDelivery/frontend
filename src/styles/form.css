@@ -1,5 +1,11 @@
-
-
+form {
+  text-align: center;
+  margin: auto;
+}
+table {
+  text-align: center;
+  margin: auto;
+}
 input {
   padding: 10px;
   border-radius: 10px;
@@ -9,7 +15,10 @@ textarea {
   padding: 10px;
   border-radius: 10px;
 }
-
+img {
+  display: block;
+  margin: auto;
+}
 input[type=submit] {
   margin-bottom: 10px
 }

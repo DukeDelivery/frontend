@@ -3,15 +3,11 @@ import DaySetter from "./DaySetter";
 import db from '../utils/request';
 
 const Config = () => {
+
   const [admin, setAdmin] = useState({});
   const [workTime, setWorkTime] = useState(null);
 
-  useEffect(() => {
-    db.get('time')
-      .then(x => {
-        setWorkTime(x.data);
-      });
-  },[]);
+
   const handleTimeSubmit = (e) => {
     e.preventDefault();
     for (const x in workTime) {
@@ -23,11 +19,19 @@ const Config = () => {
     db.post('time', workTime);
     alert('work times updated');
   }
+
   const handleAdminSubmit = (e) => {
     e.preventDefault();
     db.post('admin', admin);
     alert('admin information updated');
   }
+
+  useEffect(() => {
+    db.get('time')
+      .then(x => {
+        setWorkTime(x.data);
+      });
+  },[]);
   return (
     <div style={{textAlign: 'center'}}>
       <h2>Delivery Hours</h2>

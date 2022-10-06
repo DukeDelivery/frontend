@@ -1,16 +1,22 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { HOUR } from '../utils/time';
 import ConfirmButton from './ConfirmButton';
 import db from '../utils/request';
+import EventsContext from '../contexts/EventsContext';
 
-const EditDelivery = ({delivery, setDelivery, setEvents, setEditMode}) => {
+const EditDelivery = ({delivery, setDelivery, setEditMode}) => {
+  const [start, setStart] = useState(dateTimeFormat(delivery.start - 4*HOUR));
+  const [end, setEnd] = useState(dateTimeFormat(delivery.end - 4*HOUR));
+
   const dateTimeFormat = (date) => {
     return new Date(date).toISOString().replace('Z', '');
   }
-
-  const [start, setStart] = useState(dateTimeFormat(delivery.start - 4*HOUR));
-  const [end, setEnd] = useState(dateTimeFormat(delivery.end - 4*HOUR));
-  
+  const handleChange = (field, value) => {
+    setDelivery({
+      ...delivery,
+      [field]: value,
+    });
+  }
   useEffect(() => {
     setDelivery({
       ...delivery,
@@ -18,17 +24,14 @@ const EditDelivery = ({delivery, setDelivery, setEvents, setEditMode}) => {
       end: new Date(end).valueOf(),
     })
   }, [start, end])
-  const handleChange = (field, value) => {
-    setDelivery({
-      ...delivery,
-      [field]: value,
-    });
-  }
+  
+  
   const updateDelivery = () => {
     db.update('delivery', delivery);
     setEvents(events => events.map(event => event.id === delivery.id ? delivery : event ));
     setDelivery(null);
   }
+  const {setEvents} = useContext(EventsContext);
   return (
     <div>
       Start: <input type='datetime-local' value={start} onChange={x => setStart(x.target.value)} /><br/>
