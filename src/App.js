@@ -18,6 +18,7 @@ const App = () => {
         <h3 className="title">
           {!admin && <>Delivery Scheduling Application</>}
           {admin && <>Delivery Scheduling Application Admin</>}
+          {!admin && <Login setAdmin={setAdmin}/>}
         </h3>
       </div>
       <div className="vertical body" >

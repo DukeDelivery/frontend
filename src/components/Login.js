@@ -18,6 +18,7 @@ const Login = ({ setAdmin }) => {
         }
       });
     setOpen(false);
+  }
   return (
     <div>
       <h3 id="adminLogin" onClick={() => setOpen(true)}>Admin Login</h3>
@@ -40,7 +41,6 @@ const Login = ({ setAdmin }) => {
       </Popup>
     </div>
   )
-  }
 }
 
 export default Login;
