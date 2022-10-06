@@ -3,7 +3,6 @@ import Modal from './Modal';
 import db from '../utils/request';
 import { HOUR } from '../utils/time'
 import { Calendar, momentLocalizer } from 'react-big-calendar'
-import {DayPilotNavigator, DayPilotCalendar} from "@daypilot/daypilot-lite-react";
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import moment from 'moment'
 
@@ -17,12 +16,20 @@ const Schedule = ({ canEdit }) => {
   useEffect(() => {
     db.get('delivery').then(x => setEvents(x.data));
   }, []);
-
+  console.log(events);
   const localizer = momentLocalizer(moment);
+
   return (
     <div style={{height: 1000, backgroundColor: "white"}}>
       {delivery !== null && <Modal delivery={delivery} setDelivery={setDelivery} canEdit={canEdit} events={events} setEvents={setEvents}/>}
-      <Calendar localizer={localizer} />
+      <Calendar localizer={localizer}
+      events={events.map(event => {
+        return {
+          ...event,
+          start: new Date(event.start),
+          end: new Date(event.end),
+        }
+      })} />
     </div>
   );
 };
