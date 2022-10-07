@@ -3,6 +3,7 @@ import  AdminContext  from '../contexts/AdminContext';
 import { useContext } from 'react';
 
 const Menu = ({ current, setCurrent}) => {
+  
   const handleChange = (event, value) => {
     setCurrent(value);
   }

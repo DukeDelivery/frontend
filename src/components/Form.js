@@ -40,6 +40,7 @@ const Form = () => {
     }
     delivery.start = new Date(date).valueOf() + delivery.start + 4*HOUR;
     delivery.end = new Date(date).valueOf() + delivery.end + 4*HOUR;
+    delivery.approved = false;
     db.post('delivery', delivery).then(() => {
       alert('Your delivery has been saved.');
     });

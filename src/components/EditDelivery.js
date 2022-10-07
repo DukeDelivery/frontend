@@ -7,16 +7,20 @@ import EventsContext from '../contexts/EventsContext';
 const EditDelivery = ({delivery, setDelivery, setEditMode}) => {
   const [start, setStart] = useState(dateTimeFormat(delivery.start - 4*HOUR));
   const [end, setEnd] = useState(dateTimeFormat(delivery.end - 4*HOUR));
+  const {setEvents} = useContext(EventsContext);
 
-  const dateTimeFormat = (date) => {
-    return new Date(date).toISOString().replace('Z', '');
-  }
   const handleChange = (field, value) => {
     setDelivery({
       ...delivery,
       [field]: value,
     });
   }
+  const updateDelivery = () => {
+    db.update('delivery', delivery);
+    setEvents(events => events.map(event => event.id === delivery.id ? delivery : event ));
+    setDelivery(null);
+  }
+
   useEffect(() => {
     setDelivery({
       ...delivery,
@@ -25,13 +29,6 @@ const EditDelivery = ({delivery, setDelivery, setEditMode}) => {
     })
   }, [start, end])
   
-  
-  const updateDelivery = () => {
-    db.update('delivery', delivery);
-    setEvents(events => events.map(event => event.id === delivery.id ? delivery : event ));
-    setDelivery(null);
-  }
-  const {setEvents} = useContext(EventsContext);
   return (
     <div>
       Start: <input type='datetime-local' value={start} onChange={x => setStart(x.target.value)} /><br/>
@@ -48,12 +45,16 @@ const EditDelivery = ({delivery, setDelivery, setEditMode}) => {
       Hoist Method: <input type='text' value={delivery.hoistMethod} onChange={x => handleChange('hoistMethod', x.target.value)} /><br/>
       Number of Trucks: <input type='number' value={delivery.trucks} onChange={x => handleChange('trucks', x.target.value)} /><br/>
       Extra Notes: <input type='text' value={delivery.notes} onChange={x => handleChange('notes', x.target.value)} /><br/>
-      <ConfirmButton 
+      Approved: <input type='checkbox' checked={delivery.approved} onChange={x => handleChange('approved', x.target.checked)}/><br/>
+      <ConfirmButton
         text='Save Changes' action={updateDelivery} 
         confirmText={'Are you sure you would like to update delivery?'}
       />
       <button onClick={() => setEditMode(false)}>Cancel</button>
     </div>
   )
+}
+const dateTimeFormat = (date) => {
+  return new Date(date).toISOString().replace('Z', '');
 }
 export default EditDelivery;

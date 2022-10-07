@@ -22,3 +22,6 @@ img {
 input[type=submit] {
   margin-bottom: 10px
 }
+body {
+  margin: 0;
+}

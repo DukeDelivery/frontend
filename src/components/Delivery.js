@@ -8,6 +8,7 @@ import EventsContext from '../contexts/EventsContext';
 const Delivery = ( { delivery, setDelivery, setEditMode} ) => {
   const {setEvents} = useContext(EventsContext);
   const {admin} = useContext(AdminContext);
+
   const readableDateFormat = (date) => {
     const d = new Date(date);
     if (d.toString() === 'Invalid Date') return null;
@@ -34,6 +35,7 @@ const Delivery = ( { delivery, setDelivery, setEditMode} ) => {
       Hoist Method: {delivery.hoistMethod || 'N/A'}<br/>
       Number of Trucks: {delivery.trucks || 'N/A'}<br/>
       Extra Notes: {delivery.notes || 'N/A'}<br/>
+      Approved: {delivery.approved ? 'Yes':'No'}<br/>
       {admin && <>
         <ConfirmButton 
           text='Delete Delivery' action={deleteDelivery}

@@ -5,6 +5,7 @@ import Login from './components/Login';
 import db from './utils/request';
 import './styles/App.css'
 import AdminContext from './contexts/AdminContext';
+
 const App = () => {
   const [admin, setAdmin] = useState(false);
   const [mode, setMode] = useState('calendar');
@@ -12,6 +13,7 @@ const App = () => {
   useEffect(() => {
     db.get('phone').then(x => setNumber(x.data));
   }, []);
+
   return (
     <AdminContext.Provider value={{admin, setAdmin}}>
       <div className='horizontal'>
