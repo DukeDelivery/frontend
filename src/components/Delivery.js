@@ -15,7 +15,7 @@ const Delivery = ( { delivery, setDelivery, setEditMode} ) => {
     return d.toLocaleString('en-US', {dateStyle: 'medium', timeStyle: 'short', timeZone: 'UTC'});
   }
   const deleteDelivery = () => {
-    db.post('delete', delivery);
+    db.remove('delivery', delivery.id);
     setEvents(events => events.filter(event => event.id !== delivery.id));
     setDelivery(null);
   }

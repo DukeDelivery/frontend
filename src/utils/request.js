@@ -13,11 +13,11 @@ const post = (path, data) => {
 }
 
 const update = (path, data) => {
-  return axios.put(`${url}/${path}`, {...data});
+  return axios.patch(`${url}/${path}/${data.id}`, {...data});
 }
 
 const remove = (path, id) => {
-  return axios.delete(`${url}/${path}`, {id: id});
+  return axios.delete(`${url}/${path}/${id}`);
 }
 
 export default { url, get, post, update, remove };

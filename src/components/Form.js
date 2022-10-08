@@ -15,6 +15,7 @@ const Form = () => {
       [field]: data,
     });
   }
+  
   const submitForm = (event) => {
     event.preventDefault();
     delivery.start = toMilliseconds(delivery.start);

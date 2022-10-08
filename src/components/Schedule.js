@@ -14,7 +14,7 @@ const Schedule = () => {
   }, []);
   const eventPropGetter = (event) => {
     if (event.approved) {
-      return {style: { backgroundColor: 'green', borderColor: 'green' }}
+      return {style: { backgroundColor: 'blue', borderColor: 'blue' }}
     }
     else {
       return {style: { backgroundColor: 'red', borderColor: 'red' }}
