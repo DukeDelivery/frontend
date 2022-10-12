@@ -1,35 +1,35 @@
 import { useState, useEffect } from 'react';
 import db from '../utils/request';
 import '../styles/form.css';
-import { toTimeString, toMinutes } from '../utils/time';
+import { toTimeString, toMilliseconds, DAY, MIN } from '../utils/time';
 
 const Form = () => {
   const [delivery, setDelivery] = useState({});
   const [date, setDate] = useState('');
   const [times, setTimes] = useState({});
-  useEffect(() => {
-    db.get('time').then(x => setTimes(x.data));
-  }, []);
   const weekdays = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+
   const handleChange = (data, field) => {
     setDelivery({
       ...delivery,
-      [field]: data
+      [field]: data,
     });
   }
-  const style = {
-    textAlign: 'center',
-    margin: 'auto',
-  }
+
   const submitForm = (event) => {
     event.preventDefault();
+    delivery.start = toMilliseconds(delivery.start);
+    delivery.end = toMilliseconds(delivery.end);
     for (const field in delivery) {
       if (delivery[field] === '') delivery[field] = null;
     }
-    if (toMinutes(delivery.start) > toMinutes(delivery.end)) {
-      alert('end time must be after start time');
+    if (delivery.start > delivery.end) {
+      alert('End time must be after start time');
       window.scrollTo(0, 0);
       return;
+    }
+    if (delivery.end - new Date().valueOf() < 2*DAY) {
+      alert('Deliveries must be scheduled 48 hours in advance.');
     }
     const day = weekdays[new Date(date).getUTCDay()];
     if (!times[day].active) {
@@ -37,27 +37,29 @@ const Form = () => {
       window.scrollTo(0, 0);
       return;
     }
-    if (toMinutes(delivery.start) < times[day].start || toMinutes(delivery.end) > times[day].end) {
+    if (delivery.start < times[day].start || delivery.end > times[day].end) {
       alert(`Deliveries on ${day}s must be between ${toTimeString(times[day].start)} and ${toTimeString(times[day].end)}.`);
       window.scrollTo(0, 0);
       return;
     }
-    const d = {
-      ...delivery,
-      start: new Date(date + ' ' + delivery.start),
-      end: new Date(date + ' ' + delivery.end)
-    };
-    db.post('delivery', d).then(() => {
-      setDelivery({});
+    delivery.start = new Date(date).valueOf() + delivery.start + new Date(date).getTimezoneOffset()*MIN;
+    delivery.end = new Date(date).valueOf() + delivery.end + new Date(date).getTimezoneOffset()*MIN;
+    delivery.approved = false;
+    db.post('delivery', delivery).then(() => {
       alert('Your delivery has been saved.');
     });
     setDelivery({});
     window.scrollTo(0, 0);
   }
+
+  useEffect(() => {
+    db.get('time').then(x => setTimes(x.data));
+  }, []);
+  
   return (
-    <form onSubmit={submitForm} style={style} >
+    <form onSubmit={submitForm}>
       <h2>Required Fields</h2>
-      <table style={style}>
+      <table >
         <tbody>
           <tr>
             <td>Date:</td>
@@ -98,7 +100,7 @@ const Form = () => {
         </tbody>
       </table>
       <h2>Optional Fields</h2>
-      <table style={style}>
+      <table>
         <tbody>
           <tr>
             <td>Scheduler Name:</td>

@@ -1,8 +1,15 @@
-const toMinutes = (timeString) => {
+const SEC = 1000;
+const MIN = 60000;
+const HOUR = 3600000;
+const DAY = 86400000;
+
+
+const toMilliseconds = (timeString) => {
   const t = timeString.split(':');
-  return parseInt(t[0])*60 + parseInt(t[1]);
+  return parseInt(t[0])*HOUR + parseInt(t[1])*MIN;
 }
-const toTimeString = (minutes) => {
+const toTimeString = (milliseconds) => {
+  let minutes = milliseconds / 60000;
   let hours = 0;
   while (minutes >= 60) {
     minutes -= 60;
@@ -13,9 +20,4 @@ const toTimeString = (minutes) => {
   return hours + ':' + minutes;
 }
 
-const SEC = 1000;
-const MIN = 60000;
-const HOUR = 3600000;
-const DAY = 86400000;
-
-export { toMinutes, toTimeString, SEC, MIN, HOUR, DAY };
+export { toMilliseconds, toTimeString, SEC, MIN, HOUR, DAY };

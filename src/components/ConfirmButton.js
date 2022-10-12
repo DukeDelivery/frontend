@@ -1,17 +1,17 @@
 import Popup from 'reactjs-popup'
 
-const ConfirmButton = ({ text, yesAction, noAction, confirmText }) => {
+const ConfirmButton = ({ text, action, confirmText }) => {
   return (
     <Popup
       trigger={<button className="button">{text}</button>}
       position="top center"
       nested
     >
-      <span>
-        {confirmText}
-        <button onClick={yesAction}>yes</button>
-        <button onClick={noAction}>no</button>
-      </span>
+      {close => (<span>
+        {confirmText}<br/>
+        <button onClick={action}>yes</button>
+        <button onClick={close}>no</button>
+      </span>)}
     </Popup>
   )
 }
