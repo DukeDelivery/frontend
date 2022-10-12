@@ -1,4 +1,4 @@
-import { useState, useEffect, createContext } from 'react';
+import { useState, useEffect } from 'react';
 import Modes from './components/Modes'
 import Menu from './components/Menu'
 import Login from './components/Login';
@@ -20,13 +20,13 @@ const App = () => {
         <h3 className="title">
           {!admin && <>Delivery Scheduling Application</>}
           {admin && <>Delivery Scheduling Application Admin</>}
-          {!admin && <Login setAdmin={setAdmin}/>}
+          {!admin && <Login/>}
         </h3>
       </div>
       <div className="vertical body" >
-        <Menu current={mode} setCurrent={setMode} isAdmin={admin}/>
+        <Menu current={mode} setCurrent={setMode}/>
         <div className="main">
-          <Modes mode={mode} isAdmin={admin} />
+          <Modes mode={mode}/>
         </div>
       </div>
     </AdminContext.Provider>

@@ -19,7 +19,7 @@ const Modal = ( {delivery, setDelivery, events, setEvents} ) => {
         <button className="close" onClick={close}>
           &times;
         </button>
-        {!editMode && <Delivery delivery={delivery}  setEditMode={setEditMode} close={close}/>}
+        {!editMode && <Delivery delivery={delivery} setDelivery={setDelivery}  setEditMode={setEditMode} close={close}/>}
         {editMode && <EditDelivery delivery={delivery} setDelivery={setDelivery} setEditMode={setEditMode} close={close}/>}
       </div>
     </Popup>

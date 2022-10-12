@@ -8,7 +8,7 @@ const ConfirmButton = ({ text, action, confirmText }) => {
       nested
     >
       {close => (<span>
-        {confirmText}
+        {confirmText}<br/>
         <button onClick={action}>yes</button>
         <button onClick={close}>no</button>
       </span>)}
