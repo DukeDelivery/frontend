@@ -2,6 +2,7 @@ import Schedule from './Schedule';
 import Map from './Map';
 import Form from './Form';
 import Config from './Config';
+import RogueDelivery from './RogueDelivery';
 
 const Modes = ({ mode }) => {
   switch(mode) {
@@ -13,6 +14,8 @@ const Modes = ({ mode }) => {
       return <Form/>
     case 'settings':
       return <Config/>
+    case 'rogue': 
+      return <RogueDelivery/>
   }
 }
 

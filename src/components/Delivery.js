@@ -1,4 +1,4 @@
-import { HOUR } from '../utils/time';
+import { HOUR, MIN } from '../utils/time';
 import db from '../utils/request';
 import ConfirmButton from './ConfirmButton';
 import { useContext } from 'react';
@@ -30,8 +30,8 @@ const Delivery = ( { delivery, setDelivery, setEditMode} ) => {
   }
   return (
     <div>
-      Start: {readableDateFormat(delivery.start - 4*HOUR) || 'N/A'} <br/>
-      End: {readableDateFormat(delivery.end - 4*HOUR) || 'N/A'}<br/>
+      Start: {readableDateFormat(delivery.start - new Date(delivery.start).getTimezoneOffset()*MIN) || 'N/A'} <br/>
+      End: {readableDateFormat(delivery.end - new Date(delivery.start).getTimezoneOffset()*MIN) || 'N/A'}<br/>
       Company: {delivery.company || 'N/A'}<br/>
       Description: {delivery.description || 'N/A'}<br/>
       Gate: {delivery.gate || 'N/A'}<br/>
@@ -45,6 +45,7 @@ const Delivery = ( { delivery, setDelivery, setEditMode} ) => {
       Number of Trucks: {delivery.trucks || 'N/A'}<br/>
       Extra Notes: {delivery.notes || 'N/A'}<br/>
       Approved: {delivery.approved ? 'Yes':'No'}<br/>
+      Completed: {delivery.completed ? 'Yes':'No'}<br/>
       {admin && <div>
         {delivery.approved ?
           <ConfirmButton 

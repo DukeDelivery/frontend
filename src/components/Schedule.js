@@ -13,11 +13,14 @@ const Schedule = () => {
     db.get('delivery').then(x => setEvents(x.data));
   }, []);
   const eventPropGetter = (event) => {
-    if (event.approved) {
-      return {style: { backgroundColor: 'blue', borderColor: 'blue' }}
-    }
-    else {
-      return {style: { backgroundColor: 'red', borderColor: 'red' }}
+    if (event.approved && event.completed) {
+      return {style: {backgroundColor: 'green', borderColor: 'green'}};
+    } else if (event.approved && !event.completed) {
+      return {style: {backgroundColor: 'blue', borderColor: 'blue'}};
+    } else if (!event.approved && event.completed) {
+      return {style: {backgroundColor: 'red', borderColor: 'red'}};
+    } else {
+      return {style: {backgroundColor: 'yellow', borderColor: 'yellow', color: 'black'}};
     }
     
   }
