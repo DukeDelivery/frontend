@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import db from '../utils/request';
 import '../styles/form.css';
-import { toTimeString, toMilliseconds, HOUR } from '../utils/time';
+import { toTimeString, toMilliseconds, HOUR, DAY } from '../utils/time';
 
 const Form = () => {
   const [delivery, setDelivery] = useState({});
@@ -15,7 +15,7 @@ const Form = () => {
       [field]: data,
     });
   }
-  
+
   const submitForm = (event) => {
     event.preventDefault();
     delivery.start = toMilliseconds(delivery.start);
@@ -24,9 +24,12 @@ const Form = () => {
       if (delivery[field] === '') delivery[field] = null;
     }
     if (delivery.start > delivery.end) {
-      alert('end time must be after start time');
+      alert('End time must be after start time');
       window.scrollTo(0, 0);
       return;
+    }
+    if (delivery.end - new Date().valueOf() < 2*DAY) {
+      alert('Deliveries must be scheduled 48 hours in advance.');
     }
     const day = weekdays[new Date(date).getUTCDay()];
     if (!times[day].active) {
