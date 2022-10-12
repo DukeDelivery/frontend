@@ -5,7 +5,7 @@ import Delivery from './Delivery';
 import EditDelivery from './EditDelivery';
 
 
-const Modal = ( {delivery, setDelivery, events, setEvents} ) => {
+const Modal = ( { delivery, setDelivery } ) => {
   const [editMode, setEditMode] = useState(false);
   
   const close = () => {
