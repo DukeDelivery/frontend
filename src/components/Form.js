@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import db from '../utils/request';
 import '../styles/form.css';
-import { toTimeString, toMilliseconds, HOUR, DAY } from '../utils/time';
+import { toTimeString, toMilliseconds, DAY, MIN } from '../utils/time';
 
 const Form = () => {
   const [delivery, setDelivery] = useState({});
@@ -42,8 +42,8 @@ const Form = () => {
       window.scrollTo(0, 0);
       return;
     }
-    delivery.start = new Date(date).valueOf() + delivery.start + 4*HOUR;
-    delivery.end = new Date(date).valueOf() + delivery.end + 4*HOUR;
+    delivery.start = new Date(date).valueOf() + delivery.start + new Date(date).getTimezoneOffset()*MIN;
+    delivery.end = new Date(date).valueOf() + delivery.end + new Date(date).getTimezoneOffset()*MIN;
     delivery.approved = false;
     db.post('delivery', delivery).then(() => {
       alert('Your delivery has been saved.');
