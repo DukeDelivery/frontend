@@ -3,21 +3,30 @@ const MIN = 60000;
 const HOUR = 3600000;
 const DAY = 86400000;
 
-
 const toMilliseconds = (timeString) => {
   const t = timeString.split(':');
   return parseInt(t[0])*HOUR + parseInt(t[1])*MIN;
 }
-const toTimeString = (milliseconds) => {
-  let minutes = milliseconds / 60000;
-  let hours = 0;
-  while (minutes >= 60) {
-    minutes -= 60;
-    hours++;
-  }
-  if (minutes === 0) minutes = '00';
-  if (hours < 10) hours = '0' + hours.toString();
-  return hours + ':' + minutes;
+const toDateString = (date) => {
+  return new Date(date).toLocaleString('en-US', {dateStyle: 'medium'});
+}
+const toDateTimeString = (date) => {
+  return new Date(date).toLocaleString('en-US', {dateStyle: 'medium', timeStyle: 'short'});
 }
 
-export { toMilliseconds, toTimeString, SEC, MIN, HOUR, DAY };
+const toTimeString = (time)  => {
+  const today = new Date();
+  today.setHours(0,0,0,0);
+  today.setMilliseconds(time);
+  return today.toLocaleTimeString('en-US', {timeStyle: 'short'});
+}
+
+const getTime = (date) => {
+  return (date - new Date(date).getTimezoneOffset()*MIN) % DAY;
+}
+const getWeekday = (date) => {
+  const weekdays = ['sunday','monday','tuesday','wednesday','thursday','friday','saturday'];
+  return weekdays[new Date(date).getUTCDay()];
+}
+
+module.exports = { SEC, MIN, HOUR, DAY, toDateString, toDateTimeString, toTimeString, getTime, getWeekday, toMilliseconds };

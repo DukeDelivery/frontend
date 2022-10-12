@@ -1,19 +1,14 @@
-import { HOUR, MIN } from '../utils/time';
 import db from '../utils/request';
 import ConfirmButton from './ConfirmButton';
 import { useContext } from 'react';
 import AdminContext from '../contexts/AdminContext';
 import EventsContext from '../contexts/EventsContext';
+import { toDateTimeString } from '../utils/time';
 
 const Delivery = ( { delivery, setDelivery, setEditMode} ) => {
   const {setEvents} = useContext(EventsContext);
   const {admin} = useContext(AdminContext);
 
-  const readableDateFormat = (date) => {
-    const d = new Date(date);
-    if (d.toString() === 'Invalid Date') return null;
-    return d.toLocaleString('en-US', {dateStyle: 'medium', timeStyle: 'short', timeZone: 'UTC'});
-  }
   const deleteDelivery = () => {
     db.remove('delivery', delivery.id);
     setEvents(events => events.filter(event => event.id !== delivery.id));
@@ -30,8 +25,8 @@ const Delivery = ( { delivery, setDelivery, setEditMode} ) => {
   }
   return (
     <div>
-      Start: {readableDateFormat(delivery.start - new Date(delivery.start).getTimezoneOffset()*MIN) || 'N/A'} <br/>
-      End: {readableDateFormat(delivery.end - new Date(delivery.start).getTimezoneOffset()*MIN) || 'N/A'}<br/>
+      Start: {toDateTimeString(delivery.start) || 'N/A'} <br/>
+      End: {toDateTimeString(delivery.end) || 'N/A'}<br/>
       Company: {delivery.company || 'N/A'}<br/>
       Description: {delivery.description || 'N/A'}<br/>
       Gate: {delivery.gate || 'N/A'}<br/>

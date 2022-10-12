@@ -17,11 +17,11 @@ const App = () => {
   return (
     <AdminContext.Provider value={{admin, setAdmin}}>
       <div className='horizontal'>
-        <h3 className="title">
+        <h2 className="title">
           {!admin && <>Delivery Scheduling Application</>}
-          {admin && <>Delivery Scheduling Application Admin</>}
+          {admin && <>Delivery Scheduling Application -Admin</>}
           {!admin && <Login/>}
-        </h3>
+        </h2>
       </div>
       <div className="vertical body" >
         <Menu current={mode} setCurrent={setMode}/>

@@ -1,8 +1,5 @@
 import axios from 'axios';
-
-
 const url = 'http://localhost:3001';
-
 
 const get = (path) => {
   return axios.get(`${url}/${path}`);

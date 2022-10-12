@@ -1,3 +1,16 @@
 #root {
   background-color: rgb(207, 213, 236)
 }
+footer {
+  background-color: black;
+  color: white;
+  min-height: 100px;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+}
+body {
+  margin: 0;
+}
