@@ -19,6 +19,15 @@ const Delivery = ( { delivery, setDelivery, setEditMode} ) => {
     setEvents(events => events.filter(event => event.id !== delivery.id));
     setDelivery(null);
   }
+  const toggleApproval = () => {
+    const d = {
+      ...delivery,
+      approved: !delivery.approved,
+    };
+    setEvents(events => events.map(event => event.id === delivery.id ? d : event));
+    db.update('delivery', d);
+    setDelivery(null);
+  }
   return (
     <div>
       Start: {readableDateFormat(delivery.start - 4*HOUR) || 'N/A'} <br/>
@@ -36,13 +45,23 @@ const Delivery = ( { delivery, setDelivery, setEditMode} ) => {
       Number of Trucks: {delivery.trucks || 'N/A'}<br/>
       Extra Notes: {delivery.notes || 'N/A'}<br/>
       Approved: {delivery.approved ? 'Yes':'No'}<br/>
-      {admin && <>
+      {admin && <div>
+        {delivery.approved ?
+          <ConfirmButton 
+            text='Remove Approval' action={toggleApproval}
+            confirmText={'Are you sure you would like to remove approval for this delivery?'}
+          /> :
+          <ConfirmButton
+            text = 'Approve' action={toggleApproval}
+            confirmText={'Are you sure you would like to approve this delivery?'}
+          />
+        }
         <ConfirmButton 
           text='Delete Delivery' action={deleteDelivery}
           confirmText={'Are you sure you would like to delete delivery?'}
         />
         <button onClick={() => setEditMode(true)}>Edit Delivery</button>
-      </>}
+      </div>}
     </div>
   );
 
