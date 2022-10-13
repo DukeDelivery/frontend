@@ -46,6 +46,7 @@ const EditDelivery = ({delivery, setDelivery, setEditMode}) => {
       Number of Trucks: <input type='number' value={delivery.trucks} onChange={x => handleChange('trucks', x.target.value)} /><br/>
       Extra Notes: <input type='text' value={delivery.notes} onChange={x => handleChange('notes', x.target.value)} /><br/>
       Approved: <input type='checkbox' checked={delivery.approved} onChange={x => handleChange('approved', x.target.checked)}/><br/>
+      Completed: <input type='checkbox' checked={delivery.completed} onChange={x => handleChange('completed', x.target.checked)}/><br/>
       <ConfirmButton
         text='Save Changes' action={updateDelivery} 
         confirmText={'Are you sure you would like to update delivery?'}

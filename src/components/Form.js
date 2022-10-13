@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import db from '../utils/request';
-import '../styles/form.css';
 import { toTimeString, toMilliseconds, DAY, MIN } from '../utils/time';
 
 const Form = () => {
@@ -57,7 +56,7 @@ const Form = () => {
   }, []);
   
   return (
-    <form onSubmit={submitForm}>
+    <form id='deliveryForm' onSubmit={submitForm}>
       <h2>Required Fields</h2>
       <table >
         <tbody>

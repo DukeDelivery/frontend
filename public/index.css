@@ -1,8 +1,12 @@
 #root {
-  background-color: rgb(207, 213, 236)
+  background-image: linear-gradient(white, #478ac9);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
+
 footer {
-  background-color: black;
+  background-color: #162B3E;
   color: white;
   min-height: 100px;
   margin: 0;
@@ -13,4 +17,54 @@ footer {
 }
 body {
   margin: 0;
+  min-width: 1000px;
+}
+button, input, textarea {
+  border-color: gray;
+  border-radius: 10px;
+  padding: 10px;
+}
+button, input[type=submit] {
+  background-color: white;
+}
+
+
+
+
+#title {
+  text-align: center;
+  position: relative;
+}
+
+#adminLogin {
+  text-decoration: underline;
+  color: #364dff;
+}
+
+#adminLogin:hover {
+  font-weight: bold;
+}
+
+#calendar {
+  margin-top: 5%;
+  margin-bottom: 5%;
+  height: 1000px;
+  width: 80%;
+  min-width: 1000px;
+  background-color: white;
+}
+form {
+  text-align: center;
+}
+#deliveryForm {
+  margin: 10px;
+}
+table {
+  text-align: center;
+  margin: auto;
+}
+img {
+  display: block;
+  width: 90%;
+  margin: 50px;
 }

@@ -3,7 +3,6 @@ import Modes from './components/Modes'
 import Menu from './components/Menu'
 import Login from './components/Login';
 import db from './utils/request';
-import './styles/App.css'
 import AdminContext from './contexts/AdminContext';
 
 const App = () => {
@@ -16,19 +15,13 @@ const App = () => {
 
   return (
     <AdminContext.Provider value={{admin, setAdmin}}>
-      <div className='horizontal'>
-        <h2 className="title">
-          {!admin && <>Delivery Scheduling Application</>}
-          {admin && <>Delivery Scheduling Application -Admin</>}
-          {!admin && <Login/>}
-        </h2>
-      </div>
-      <div className="vertical body" >
-        <Menu current={mode} setCurrent={setMode}/>
-        <div className="main">
-          <Modes mode={mode}/>
-        </div>
-      </div>
+      <h2 id="title">
+        {!admin && <>Delivery Scheduling Application</>}
+        {admin && <>Delivery Scheduling Application -Admin</>}
+        {!admin && <Login/>}
+      </h2>
+      <Menu current={mode} setCurrent={setMode}/>
+      <Modes mode={mode}/>
     </AdminContext.Provider>
   )
 }

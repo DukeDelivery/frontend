@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import db from '../utils/request';
-import '../styles/form.css';
 import { toMilliseconds, DAY, MIN } from '../utils/time';
 
 const RogueDelivery = () => {
