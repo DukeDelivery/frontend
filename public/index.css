@@ -1,12 +1,12 @@
 #root {
-  background-image: linear-gradient(white, #478ac9);
+  background: linear-gradient(0deg, rgba(0,157,72,1) 0%, rgba(255,255,255,1) 100%);
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
 footer {
-  background-color: #162B3E;
+  background-color: #00400B;
   color: white;
   min-height: 100px;
   margin: 0;
