@@ -4,6 +4,7 @@ import { toTimeString, toMilliseconds, DAY, MIN } from '../utils/time';
 
 const Form = () => {
   const [delivery, setDelivery] = useState({});
+  const [gates, setGates] = useState([]);
   const [date, setDate] = useState('');
   const [times, setTimes] = useState({});
   const weekdays = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
@@ -27,8 +28,9 @@ const Form = () => {
       window.scrollTo(0, 0);
       return;
     }
-    if (delivery.end - new Date().valueOf() < 2*DAY) {
+    if (delivery.end + new Date(date).valueOf() - new Date().valueOf() < 2*DAY) {
       alert('Deliveries must be scheduled 48 hours in advance.');
+      return;
     }
     const day = weekdays[new Date(date).getUTCDay()];
     if (!times[day].active) {
@@ -53,6 +55,7 @@ const Form = () => {
 
   useEffect(() => {
     db.get('time').then(x => setTimes(x.data));
+    db.get('gate').then(x => setGates(x.data));
   }, []);
   
   return (
@@ -82,7 +85,10 @@ const Form = () => {
           </tr>
           <tr>
             <td>Gate:</td>
-            <td><input type='number' value={delivery.gate || ''} onChange={x => handleChange(x.target.value, 'gate')} required /></td>
+            <td><select onChange={x => handleChange(x.target.value, 'gate')} required>
+            <option value="" disabled selected>Choose gate</option>
+              {gates.map(gate => <option value={gate.name}>{gate.name}</option>)}
+            </select></td>
           </tr>
           <tr>
             <td>Contact Name:</td>
