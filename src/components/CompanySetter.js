@@ -60,26 +60,31 @@ const Company = ({ company, setCompanies }) => {
     <>
       <div className='table-row'>
         <p className='table-cell'>{company.name}</p>
-        <button className='table-cell' onClick={() => setOpen(open => !open)}>{!open ? <>View Contacts</>:<>Hide Contacts</>}</button>
-        <button className='table-cell' onClick={() => handleDelete(company.id)}>Delete</button>
+        <div className='table-cell'><button onClick={() => setOpen(open => !open)}>{!open ? <>View Contacts</>:<>Hide Contacts</>}</button></div>
+        <div className='table-cell'><button onClick={() => handleDelete(company.id)}>Delete</button></div>
       </div>
       {open && 
-      <>
-        {company.contacts.map(contact => {
-          return (
-            <div className='table-row'>
-              <p className='table-cell'>Name: {contact.name}</p>
-              <p className='table-cell'>Number: {contact.number}</p>
-              <button className='table-cell' onClick={() => handleContactDelete(contact.name, contact.number)}>Delete Contact</button>
-            </div>
-          )
-        })}
-        <div className='table-row'>
-          <input className='table-cell' type='text' placeholder='Contact Name' value={name} onChange={x => setName(x.target.value)}/>
-          <input className='table-cell' type='text' placeholder='Contact Number' value={number} onChange={x => setNumber(x.target.value)}/>
-          <button className='table-cell' onClick={handleContactSubmit}>Add Contact</button>
-        </div>
-      </>
+        <>
+          <div className='table-row'>
+            <p className='table-cell'>Name:</p>
+            <p className='table-cell'>Number:</p>
+            <p className='table-cell'>Delete:</p>
+          </div>
+          {company.contacts.map(contact => {
+            return (
+              <div className='table-row'>
+                <p className='table-cell'>{contact.name}</p>
+                <p className='table-cell'>{contact.number}</p>
+                <button className='table-cell' onClick={() => handleContactDelete(contact.name, contact.number)}>Delete Contact</button>
+              </div>
+            )
+          })}
+          <form className='table-row' onSubmit={handleContactSubmit}>
+            <div className='table-cell'><input type='text' placeholder='Contact Name' value={name} onChange={x => setName(x.target.value)}/></div>
+            <div className='table-cell'><input type='text' placeholder='Contact Number' value={number} onChange={x => setNumber(x.target.value)}/></div>
+            <div className='table-cell'><input type='submit' value="Add Contact" /></div>
+          </form>
+        </>
       }
     </>
   )
