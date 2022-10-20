@@ -3,10 +3,9 @@ import db from '../utils/request';
 import { toTimeString, toMilliseconds, DAY, MIN } from '../utils/time';
 
 const Form = () => {
-  const [delivery, setDelivery] = useState({});
+  const [delivery, setDelivery] = useState({duration: 60});
   const [gates, setGates] = useState([]);
   const [companies, setCompanies] = useState([]);
-  const [date, setDate] = useState('');
   const [times, setTimes] = useState({});
   const weekdays = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
 
@@ -20,7 +19,7 @@ const Form = () => {
   const submitForm = (event) => {
     event.preventDefault();
     delivery.start = toMilliseconds(delivery.start);
-    delivery.end = toMilliseconds(delivery.end);
+    delivery.end = delivery.start + delivery.duration;
     for (const field in delivery) {
       if (delivery[field] === '') delivery[field] = null;
     }
@@ -29,11 +28,11 @@ const Form = () => {
       window.scrollTo(0, 0);
       return;
     }
-    if (delivery.end + new Date(date).valueOf() - new Date().valueOf() < 2*DAY) {
+    if (delivery.end + new Date(delivery.date).valueOf() - new Date().valueOf() < 2*DAY) {
       alert('Deliveries must be scheduled 48 hours in advance.');
       return;
     }
-    const day = weekdays[new Date(date).getUTCDay()];
+    const day = weekdays[new Date(delivery.date).getUTCDay()];
     if (!times[day].active) {
       alert(`Deliveries cannot be scheduled on ${day}s`);
       window.scrollTo(0, 0);
@@ -44,9 +43,11 @@ const Form = () => {
       window.scrollTo(0, 0);
       return;
     }
-    delivery.start = new Date(date).valueOf() + delivery.start + new Date(date).getTimezoneOffset()*MIN;
-    delivery.end = new Date(date).valueOf() + delivery.end + new Date(date).getTimezoneOffset()*MIN;
+    delivery.start = new Date(delivery.date).valueOf() + delivery.start + new Date(delivery.date).getTimezoneOffset()*MIN;
+    delivery.end = new Date(delivery.date).valueOf() + delivery.end + new Date(delivery.date).getTimezoneOffset()*MIN;
     delivery.approved = false;
+    delivery.duration = undefined;
+    delivery.date = undefined;
     db.post('delivery', delivery).then(() => {
       alert('Your delivery has been saved.');
     });
@@ -66,15 +67,15 @@ const Form = () => {
       <div className="table">
         <div className="table-row">
           <p className="table-cell"> Date:</p>
-          <input className='table-cell' type='date' value={date} onChange={x => setDate(x.target.value)} required />
+          <input className='table-cell' type='date' value={delivery.date || ''} onChange={x => handleChange(x.target.value, 'date')} required />
         </div> 
         <div className="table-row">
-          <p className='table-cell'>Start Time:</p>
+          <p className='table-cell'>Time:</p>
           <input className='table-cell' type='time' value={delivery.start || ''} onChange={x => handleChange(x.target.value, 'start')} required />
         </div>
         <div className="table-row">
-          <p className='table-cell'>End Time:</p>
-          <input className='table-cell' type='time' value={delivery.end || ''} onChange={x => handleChange(x.target.value, 'end')} required />
+          <p className='table-cell'>Duration (minutes):</p>
+          <input className='table-cell' type='number' value={delivery.duration || ''} onChange={x => handleChange(x.target.value, 'duration')} required />
         </div>
         <div className="table-row">
           <p className='table-cell'>Company:</p>
