@@ -27,8 +27,9 @@ const Form = () => {
       window.scrollTo(0, 0);
       return;
     }
-    if (delivery.end - new Date().valueOf() < 2*DAY) {
+    if (new Date(delivery.date).valueOf() + delivery.end - new Date().valueOf() < 2*DAY) {
       alert('Deliveries must be scheduled 48 hours in advance.');
+      return;
     }
     const day = weekdays[new Date(date).getUTCDay()];
     if (!times[day].active) {
