@@ -59,7 +59,7 @@ const Form = () => {
   return (
     <form id='deliveryForm' onSubmit={submitForm}>
       <h2>Required Fields</h2>
-      <table >
+      <table>
         <tbody>
           <tr>
             <td>Date:</td>
